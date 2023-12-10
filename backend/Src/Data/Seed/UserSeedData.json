@@ -1,0 +1,73 @@
+[
+    {
+      "Rut": "123456789",
+      "Name": "John",
+      "LastName": "Doe",
+      "Email": "john.doe@example.com",
+      "Points": 100
+    },
+    {
+      "Rut": "987654321",
+      "Name": "Jane",
+      "LastName": "Smith",
+      "Email": "jane.smith@example.com",
+      "Points": 150
+    },
+    {
+      "Rut": "555555555",
+      "Name": "Alice",
+      "LastName": "Johnson",
+      "Email": "alice.johnson@example.com",
+      "Points": 75
+    },
+    {
+      "Rut": "444444444",
+      "Name": "Bob",
+      "LastName": "Williams",
+      "Email": "bob.williams@example.com",
+      "Points": 120
+    },
+    {
+      "Rut": "333333333",
+      "Name": "Eva",
+      "LastName": "Anderson",
+      "Email": "eva.anderson@example.com",
+      "Points": 80
+    },
+    {
+      "Rut": "222222222",
+      "Name": "Mike",
+      "LastName": "Brown",
+      "Email": "mike.brown@example.com",
+      "Points": 110
+    },
+    {
+      "Rut": "666666666",
+      "Name": "Sarah",
+      "LastName": "Miller",
+      "Email": "sarah.miller@example.com",
+      "Points": 95
+    },
+    {
+      "Rut": "777777777",
+      "Name": "David",
+      "LastName": "Jones",
+      "Email": "david.jones@example.com",
+      "Points": 130
+    },
+    {
+      "Rut": "888888888",
+      "Name": "Emily",
+      "LastName": "White",
+      "Email": "emily.white@example.com",
+      "Points": 70
+    },
+    {
+      "Rut": "999999999",
+      "Name": "Chris",
+      "LastName": "Taylor",
+      "Email": "chris.taylor@example.com",
+      "Points": 105
+    }
+  ]
+  
