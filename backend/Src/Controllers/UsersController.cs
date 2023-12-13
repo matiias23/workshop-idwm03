@@ -13,7 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 namespace backend.Src.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/usuarios")]
 
     public class UsersController : ControllerBase
     {
@@ -31,14 +31,15 @@ namespace backend.Src.Controllers
         {
             return _context.Users.Any(e => e.Id == id);
         }
-
+        
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpGet]
         public async Task<ActionResult<List<User>>> AllUsers()
         {
             var users = await _context.Users.ToListAsync();
             return users;
         }
-
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpGet("{id:int}")]
         public async Task<ActionResult<User>> GetUserById(int id)
         {
@@ -52,7 +53,7 @@ namespace backend.Src.Controllers
             return user;
         }
 
-
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost]
         public async Task<ActionResult<User>> CreateUser(User newUser)
         {
@@ -61,7 +62,7 @@ namespace backend.Src.Controllers
 
             return CreatedAtAction(nameof(GetUserById), new { id = newUser.Id }, newUser);
         }
-
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
@@ -77,7 +78,7 @@ namespace backend.Src.Controllers
             await _context.SaveChangesAsync();
             return NoContent(); // Retorna un 204 si la eliminación fue exitosa.
         }
-
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateUser(int id, User updatedUser)
         {
