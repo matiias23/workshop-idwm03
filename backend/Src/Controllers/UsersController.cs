@@ -123,23 +123,30 @@ namespace backend.Src.Controllers
         }
 
         private string GenerateJwtToken(Account user)
-    {
-        // Implementación de GenerateJwtToken
-        var key = Encoding.ASCII.GetBytes("SuperSecretKeyDumbo");
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity(new[]
+            // Implementación de GenerateJwtToken
+            var key = Encoding.ASCII.GetBytes("SuperSecretKeyDumbo");
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var tokenDescriptor = new SecurityTokenDescriptor
             {
-                new Claim(ClaimTypes.Name, user.Username),
-                // Otros claims según sea necesario
-            }),
-            Expires = DateTime.UtcNow.AddHours(1), // Ajusta la duración del token según tus necesidades
-            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-        };
-        var token = tokenHandler.CreateToken(tokenDescriptor);
-        return tokenHandler.WriteToken(token);
-    }
+                Subject = new ClaimsIdentity(new[]
+                {
+                    new Claim(ClaimTypes.Name, user.Username),
+                    // Otros claims según sea necesario
+                }),
+                Expires = DateTime.UtcNow.AddHours(1), // Ajusta la duración del token según tus necesidades
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
+        }
+
+        [HttpPost]
+        [Route("api/register")]
+        public async Task<ActionResult> Register(RegisterDto registerdto)
+        {
+            return Ok();
+        }
 
     }
 
