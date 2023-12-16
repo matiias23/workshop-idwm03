@@ -14,6 +14,10 @@ namespace backend.Src.DTOs
         public string Rut { get; set; } = null!;
 
         [Required]
-        public int Birthdate { get; set; } 
+        public string Fullname { get; set; } = null!;
+
+        [Required]
+        public int BirthYear { get; set; } 
+        
     }
 }
