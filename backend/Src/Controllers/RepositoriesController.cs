@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using backend.Src.DTOs;
 using Octokit;
 using DotNetEnv;
 
@@ -16,7 +17,7 @@ namespace backend.Src.Controllers
     {
         
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<Repository>?>> GetAll()
+        public async Task<ActionResult<IEnumerable<RepositoryDto>?>> GetAll()
         {
             var client = ClientProvider();
             
@@ -26,7 +27,7 @@ namespace backend.Src.Controllers
 
         private GitHubClient ClientProvider()
         {
-            Env.Load();
+            
             var client = new GitHubClient(new ProductHeaderValue("MobileHub"));
             var myToken = Env.GetString("GITHUB_ACCESS_TOKEN");
             var tokenCred = new Credentials(myToken);
@@ -34,33 +35,46 @@ namespace backend.Src.Controllers
             return client;
         }
 
-        private async Task<IReadOnlyList<Repository>?> GetAllRepositories(GitHubClient client)
+        private async Task<IReadOnlyList<RepositoryDto>?> GetAllRepositories(GitHubClient client)
         {
             var repositories = await client.Repository.GetAllForUser("Dizkm8");
-            repositories = repositories.OrderByDescending(x => x.UpdatedAt).ToList();
-            return repositories;
+
+             repositories = repositories.OrderByDescending(x => x.UpdatedAt).ToList();
+
+             var getCommitsTasks = repositories.Select(r => GetCommitsAmountByRepository(client, r.Name));
+
+             var commitsResults = await Task.WhenAll(getCommitsTasks);
+
+            var mappedRepositories = repositories.Select((r, index) =>
+            {
+                var entity = new RepositoryDto
+                {
+                    Name = r.Name,
+                    CreatedAt = r.CreatedAt,
+                    UpdatedAt = r.UpdatedAt,
+                    CommitsAmount = commitsResults[index]
+                };
+                return entity;
+            }).ToList();
+
+            return mappedRepositories;
         }
 
-        [HttpGet("commits")]
+        /*[HttpGet("commits")]
         public async Task<ActionResult<IReadOnlyList<GitHubCommit>?>> GetAllCommits()
         {
             var client = ClientProvider();
             var response = await GetAllCommitsByRepository(client);
             return Ok(response);
-        }
+        }*/
 
-        private async Task<IReadOnlyList<GitHubCommit>?> GetAllCommitsByRepository(GitHubClient client)
+        private async Task<int> GetCommitsAmountByRepository(GitHubClient client, string repoName)
         {
-            try
-            {
-                var commits = await client.Repository.Commit.GetAll("Dizkm8", "Hackathon");
-                return commits;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error al obtener commits: {ex.Message}");
-                return null;
-            }
+            var commits = await client.Repository.Commit.GetAll("Dizkm8", repoName);
+            if (commits is null) return 0;
+
+            return commits.Count;
+              
         }
 
         

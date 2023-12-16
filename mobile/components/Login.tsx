@@ -29,9 +29,7 @@ const Login = ({ navigation }) => {
     };
 
     const handleSumbit= () => {
-      setHidePwd(!hidePwd);
-      console.log("text");
- 
+      navigation.navigate('Repositories');
     };
     
 
