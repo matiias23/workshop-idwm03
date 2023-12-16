@@ -36,6 +36,12 @@ namespace backend.Src.Repositories
         {
             return await _context.Users.AllAsync(u => u.Rut != rut);
         }
+
+         public async Task<User?> GetByEmail(string email)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            return user;
+        }
         
     }
 }

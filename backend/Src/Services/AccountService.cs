@@ -23,18 +23,22 @@ public class AccountService : IAccountService
         _usersRepository = usersRepository;
     }
 
-    public async Task<Account> AuthenticateAsync(LoginUserDto loginUserDto)
+    public async Task<LoginResponseDto?> Login(LoginUserDto loginUserDto)
     {
-        // Lógica de autenticación, por ejemplo, acceder a la base de datos para verificar las credenciales
-        var user = await _context.Accounts.SingleOrDefaultAsync(x => x.Username == loginUserDto.Username && x.Password == loginUserDto.Password);
+        var user = await _usersRepository.GetByEmail(loginUserDto.Email);
+        if (user is null) return null;
 
-        if (user != null && user.Password == loginUserDto.Password)
+        var result = BCrypt.Net.BCrypt.Verify(loginUserDto.Password, user.Password);
+        if (!result) return null;
+
+        var token = CreateToken(user);
+        return new LoginResponseDto()
         {
-            return user;
-        }
-
-        return null;
+            Token = token,
+            Email = user.Email,
+        };
     }
+
 
     public async Task<LoginResponseDto> RegisterClient(RegisterDto registerDto)
     {

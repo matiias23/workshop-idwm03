@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { View, StyleSheet, ScrollView,  } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
+import { View, StyleSheet, ScrollView,TouchableOpacity } from "react-native";
 import { ActivityIndicator, Button, Card, Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Icon from 'react-native-vector-icons/FontAwesome';
 import { Repository } from "../models/Repository";
 import axios from "axios";
+import { AuthContext } from "../context/AuthContext";
 
 const Repositories = ({ navigation }) => {
+    const { logOut } = useContext(AuthContext);
+   
+    
+
     const [repositories, setRepositores] = useState<Repository[]>([]);
     const [isLoading, setIsLoading]= useState<boolean>(false);
-    const url = "http://192.168.1.83:5023/Repositories"
-
-    const toHome = () => {
-        navigation.navigate('Home');
-    };
+    const url = "http://192.168.1.83:5023/Repositories";
 
     useEffect(() => {
         setIsLoading(true);
@@ -37,6 +37,15 @@ const Repositories = ({ navigation }) => {
     );
     }
 
+    const handleLogOut = () => {
+        navigation.reset({
+            index: 0,
+            routes: [{ name: 'Home' }],
+        });
+        
+        logOut();
+    };
+
   return (
     <SafeAreaView style={styles.container}>
         <Text variant={"displayMedium"}> Mis Repositorios</Text>
@@ -58,7 +67,15 @@ const Repositories = ({ navigation }) => {
                 </Button>
             </Card.Actions>
         </Card>
-        ))}     
+        ))}
+        <Button
+        style={styles.buttonExit}
+        mode="contained"
+        onPress={handleLogOut}
+        labelStyle={styles.buttonLabel}
+        >
+        Salir
+        </Button>     
         </ScrollView>
     </SafeAreaView>
   );
@@ -88,7 +105,38 @@ const styles = StyleSheet.create({
         flex:1,
         alignItems:"center",
         justifyContent:"center"
-    }
+    },
+    buttonExit: {
+        height: 40,
+        width: 200,
+        marginTop: '20%',
+        backgroundColor: '#D12B35',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+    },
+    buttonLabel: {
+        fontFamily: 'Inika',
+    },
+    button: {
+        height: 40,
+        width: 200,
+        marginBottom: '5%',
+        backgroundColor: '#4DC639',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+    },
 });
 
 export default Repositories;

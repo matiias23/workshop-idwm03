@@ -37,17 +37,13 @@ namespace backend.Src.Controllers
         
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginUserDto loginUserDto)
+        public async Task<ActionResult<LoginResponseDto>> Login(LoginUserDto loginUserDto)
         {
-            //Console.WriteLine("obj:"+account);
             
-            var user= await _accountService.AuthenticateAsync(loginUserDto);
-            //Console.WriteLine("user: "+user);
-            
-            if (user == null )
-                return BadRequest("Las credenciales de acceso son incorrectas o el usuario no está registrado en el sistema");
-            var token = GenerateJwtToken(user);
-            return Ok(new { Usuario = user, Token =token});
+            var response = await _accountService.Login(loginUserDto);
+
+            if (response is null) return BadRequest("Invalid Credentials");
+            return Ok(response);
         }
 
         private string GenerateJwtToken(Account user)

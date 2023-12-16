@@ -3,6 +3,7 @@ import { PaperProvider, MD3LightTheme as Theme } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { Navigator } from "./navigator/Navigator";
+import { AuthProvider } from "./context/AuthContext";
 
 const theme  = {
   ...Theme,
@@ -13,16 +14,26 @@ const theme  = {
   }
 }
 
+const AppState = ({children}) => {
+  return(
+    <AuthProvider>
+      {children}
+    </AuthProvider>
+  )
+}
+
 export default function App() {
   return (
     <NavigationContainer>
       <PaperProvider theme={theme}>
         <SafeAreaProvider>
-          <Navigator/>
+          <AppState>
+            <Navigator/>
+          </AppState>   
         </SafeAreaProvider>
       </PaperProvider>
     </NavigationContainer>
-   
+  
   
   );
 }

@@ -11,5 +11,7 @@ namespace backend.Src.Interfaces
         public Task<bool> IsEmailUnique(string email);
 
         public Task<bool> IsRutUnique(string rut);
+
+        public Task<User?> GetByEmail(string email);
     }
 }

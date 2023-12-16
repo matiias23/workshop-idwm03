@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { View,StyleSheet, TouchableOpacity } from "react-native";
+import { View,StyleSheet, TouchableOpacity,Alert } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { AuthContext } from "../context/AuthContext";
 
 const Login = ({ navigation }) => {
+  
   const [email, setEmail] = useState( "");
-  const [pwd, setPwd] = useState("");
+  const [password, setPwd] = useState("");
   const [hidePwd, setHidePwd] = useState(true);
+  const { signIn } = useContext(AuthContext);
 
     const toHome = () => {
         navigation.navigate('Home');
@@ -28,11 +31,24 @@ const Login = ({ navigation }) => {
  
     };
 
-    const handleSumbit= () => {
-      navigation.navigate('Repositories');
+    const handleLogin = async () => {
+      if (!email || !password) {
+        Alert.alert('Error', 'Por favor, completa todos los campos.');
+        return;
+      }
+  
+      try {
+        await signIn({ email, password });
+  
+        
+        // Puedes manejar el token de sesión o redirigir a la siguiente pantalla aquí
+        navigation.navigate('Repositories');
+      } catch (error) {
+        console.error('Error al iniciar sesión:', error.response ? error.response.data : error.message);
+        Alert.alert('Error', 'Credenciales inválidas. Verifica tu correo electrónico y contraseña.');
+      }
     };
     
-
     return (
       <SafeAreaView style={styles.container}> 
         <TouchableOpacity style={styles.buttonBack} onPress={() => toHome()}>
@@ -55,7 +71,7 @@ const Login = ({ navigation }) => {
           placeholder={"tucontraseña"}
           placeholderTextColor={"#B2B2B2"}
           autoComplete={"password"}
-          value={pwd}
+          value={password}
           onChangeText={handlePwd}
           mode={"outlined"}
           style={styles.textInput}
@@ -64,11 +80,9 @@ const Login = ({ navigation }) => {
           icon={hidePwd ? "eye": "eye-off"} 
           onPress={handleShowPwd} /> }
           />
-          <Button mode={"contained"} style={styles.button} onPress={handleSumbit} >
+          <Button mode={"contained"} style={styles.button} onPress={handleLogin} >
             Ingresar
           </Button>
-        
-
       </SafeAreaView>
        
       );
