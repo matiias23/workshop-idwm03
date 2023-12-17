@@ -13,5 +13,11 @@ namespace backend.Src.Interfaces
         public Task<bool> IsRutUnique(string rut);
 
         public Task<User?> GetByEmail(string email);
+
+        public Task<User> GetUserById(int id);
+
+        public Task<bool> UpdateUser(User user);
+
+       public Task<User> GetUserByRut(string rut); 
     }
 }

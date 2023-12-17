@@ -5,8 +5,9 @@ import userApi from '../api/userApi';
 const authInitialState = {
     status: 'checking',
     token: null,
-    user: null,
-    errorMessage: ''
+    email: null,
+    errorMessage: '',
+    rut:null
 }
 
 export const AuthContext = createContext();
@@ -16,9 +17,32 @@ export const AuthProvider = ({children}) => {
 
     const [state, dispatch] = useReducer(authReducer, authInitialState);
 
-    const signUp = ({name = "Felipe", email = "felipe@correo.com", password = "felipe1234"}) => {
-        console.log(name);
-    }
+    const signUp = async ({ email, fullname, birthyear, rut }) => {
+        try {
+          const {data} = await userApi.post('/Users/register', { email, fullname, birthyear, rut });       
+          console.log('Respuesta del servidor:', data); 
+            dispatch({
+                type: 'signUp',
+                payload: {
+                token: data,
+                email: data.email,
+                rut: data.rut
+            }
+        });
+          } 
+        catch (error) {
+          // Manejar errores de red u otros problemas
+          console.error('Error durante la solicitud:', error.message);
+      
+          dispatch({
+            type: 'setError',
+            payload: {
+              errorMessage: 'Hubo un problema durante el registro.'
+            }
+          });
+        }
+      };
+      
 
     const signIn = async ({email, password}) => {
         try{ 
@@ -28,7 +52,8 @@ export const AuthProvider = ({children}) => {
                 type: 'signUp',
                 payload:{
                     token: data,
-                    user: data.user,
+                    email: data.email,
+                    rut: data.rut,
                 } 
             });
             

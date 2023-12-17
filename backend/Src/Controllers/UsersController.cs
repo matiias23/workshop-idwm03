@@ -81,6 +81,62 @@ namespace backend.Src.Controllers
             return Ok(response);
         }
 
+        [HttpPut("{rut}")]
+        public async Task<ActionResult> UpdateUserProfile(string rut, [FromBody] UpdateUserDto updateUserDto)
+        {
+            var existingUser = await _usersRepository.GetUserByRut(rut);
+
+            if (existingUser == null)
+            {
+                return NotFound("Usuario no encontrado");
+            }
+
+            // Validaciones
+            if (!await _usersRepository.IsEmailUnique(updateUserDto.Email.ToLower()))
+            {
+                return BadRequest("El correo electrónico ya existe");
+            }
+
+            if (updateUserDto.BirthYear < 1900 || updateUserDto.BirthYear > DateTime.Now.Year)
+            {
+                return BadRequest("El año de nacimiento debe estar entre 1900 y el año actual");
+            }
+
+            existingUser.Fullname = updateUserDto.Fullname;
+            existingUser.Email = updateUserDto.Email;
+            existingUser.BirthYear = updateUserDto.BirthYear;
+
+            // Guarda los cambios en la base de datos
+            await _usersRepository.UpdateUser(existingUser);
+
+            return Ok(existingUser);
+        }
+
+
+        [HttpGet("{rut}")]
+        public async Task<ActionResult<UserDto>> GetUserByRut(string rut)
+        {
+            var user = await _usersRepository.GetUserByRut(rut);
+
+            if (user == null)
+            {
+                return NotFound("Usuario no encontrado");
+            }
+
+            var userDto = new UserDto
+            {
+                // Mapea los campos necesarios del modelo User al DTO
+                Id = user.Id,
+                Fullname = user.Fullname,
+                Email = user.Email,
+                BirthYear = user.BirthYear,
+                // Agrega otros campos según sea necesario
+            };
+
+            return Ok(userDto);
+        }
+
+
     }
 
 }

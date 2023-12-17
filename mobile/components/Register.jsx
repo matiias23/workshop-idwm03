@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { View, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { SafeAreaView } from "react-native-safe-area-context";
-import axios from "axios";
+import { AuthContext } from "../context/AuthContext";
 
 const Register = ({ navigation }) => {
   const [email, setEmail] = useState( "");
@@ -11,47 +11,46 @@ const Register = ({ navigation }) => {
   const [birthyear, setBirthyear] = useState( "");
   const [rut, setRut] = useState( "");
   const [error, setError] = useState(null);
+  const { signUp } = useContext(AuthContext);
 
   const toHome = () => {
     navigation.navigate('Home')
 }
 
-    const handleRegister = async () => {
-      if (!email || !fullname || !birthyear || !rut) {
-        Alert.alert('Error', 'Por favor, completa todos los campos.');
-        return;
-      }
-      try {
-        const response = await axios.post('http://192.168.1.83:5023/Users/register', {
-          email,
-          fullname,
-          birthYear: parseInt(birthyear), 
-          rut,
-        })
-        console.log('Registro exitoso:', response.data);
-        navigation.navigate('Home');
+const handleRegister = async () => {
+  if (!email || !fullname || !birthyear || !rut) {
+    Alert.alert('Error', 'Por favor, completa todos los campos.');
+    return;
+  }
 
-      } catch (error) {
-        console.error('Error al registrar:', error.response ? error.response.data : error.message);
-    
-        if (error.response && error.response.data && error.response.data.errors) {
-          const validationErrors = error.response.data.errors;
-          let errorMessage = 'Error';
-    
-          // Construir un mensaje de error amigable basado en los errores de validación
-          for (const key in validationErrors) {
-            errorMessage += `${key}: ${validationErrors[key][0]}\n`;
-          }
-    
-          setError(errorMessage);
-          Alert.alert('Error de validación', errorMessage);
-        } else {
-          // Manejar otros tipos de errores
-          setError('Error al procesar la solicitud.');
-          Alert.alert('Error', 'Ocurrió un error al procesar la solicitud.');
-        }
+  try {
+  
+    await signUp({ email, fullname, birthyear, rut });
+
+    // Utilizas 'response' para obtener datos
+    navigation.navigate('Home');
+  } catch (error) {
+    console.error('Error al registrar:', error.response ? error.response.data : error.message);
+
+    if (error.response && error.response.data && error.response.data.errors) {
+      const validationErrors = error.response.data.errors;
+      let errorMessage = 'Error';
+
+      // Construir un mensaje de error amigable basado en los errores de validación
+      for (const key in validationErrors) {
+        errorMessage += `${key}: ${validationErrors[key][0]}\n`;
       }
-    };
+
+      setError(errorMessage);
+      Alert.alert('Error de validación', errorMessage);
+    } else {
+      // Manejar otros tipos de errores
+      setError('Error al procesar la solicitud.');
+      Alert.alert('Error', 'Ocurrió un error al procesar la solicitud.');
+    }
+  }
+};
+
   
 
   return (

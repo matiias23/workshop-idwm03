@@ -46,8 +46,19 @@ const Repositories = ({ navigation }) => {
         logOut();
     };
 
+    const handleEditProfile = () => {
+        navigation.navigate('EditProfile');
+        
+    };
+
+    const handleUpdatePassword = () => {
+        navigation.navigate('UpdatePassword');
+        
+    };
+
   return (
     <SafeAreaView style={styles.container}>
+        
         <Text variant={"displayMedium"}> Mis Repositorios</Text>
         <ScrollView>
         {repositories.map((r) => (
@@ -69,10 +80,23 @@ const Repositories = ({ navigation }) => {
         </Card>
         ))}
         <Button
+            style={styles.smallButton}
+            mode="contained"
+            onPress={handleEditProfile}
+        >
+            Editar Perfil
+        </Button>
+        <Button
+            style={styles.smallButton}
+            mode="contained"
+            onPress={handleUpdatePassword}
+        >
+            Actualizar Contraseña
+        </Button>
+        <Button
         style={styles.buttonExit}
         mode="contained"
         onPress={handleLogOut}
-        labelStyle={styles.buttonLabel}
         >
         Salir
         </Button>     
@@ -108,8 +132,8 @@ const styles = StyleSheet.create({
     },
     buttonExit: {
         height: 40,
-        width: 200,
         marginTop: '20%',
+        marginBottom: 8,
         backgroundColor: '#D12B35',
         shadowColor: '#000',
         shadowOffset: {
@@ -119,9 +143,6 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5,
-    },
-    buttonLabel: {
-        fontFamily: 'Inika',
     },
     button: {
         height: 40,
@@ -136,6 +157,10 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5,
+    },
+    smallButton: {
+        marginBottom: 8,
+        height: 40, 
     },
 });
 

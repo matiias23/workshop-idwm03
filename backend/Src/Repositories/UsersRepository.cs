@@ -42,6 +42,24 @@ namespace backend.Src.Repositories
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
             return user;
         }
+
+        public async Task<User> GetUserById(int id)
+        {
+            return await _context.Users.FindAsync(id);
+        }
+
+        public async Task<bool> UpdateUser(User user)
+        {
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<User> GetUserByRut(string rut)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Rut == rut);
+        }
         
     }
 }

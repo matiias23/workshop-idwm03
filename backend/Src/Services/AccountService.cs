@@ -36,6 +36,7 @@ public class AccountService : IAccountService
         {
             Token = token,
             Email = user.Email,
+            Rut = user.Rut
         };
     }
 
@@ -66,6 +67,7 @@ public class AccountService : IAccountService
         {
             Token = token,
             Email = addedUser.Email,
+            Rut = addedUser.Rut
         };
     }
 

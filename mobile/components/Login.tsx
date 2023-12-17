@@ -18,7 +18,6 @@ const Login = ({ navigation }) => {
 
     const handleEmail = (text:string) => {
       setEmail(text);
-      console.log(text);
     };
 
     const handlePwd = (text:string) => {

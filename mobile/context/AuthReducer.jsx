@@ -8,7 +8,8 @@ export const authReducer = (state, action) => {
                 errorMessage:'',
                 status: 'authenticated',
                 token: action.payload.token,
-                user: action.payload.user,
+                email: action.payload.email,
+                rut: action.payload.rut
         }
         
     
@@ -19,7 +20,7 @@ export const authReducer = (state, action) => {
             errorMessage: [],
             status: 'not-authenticated',
             token: null,
-            user: null
+            email: null
         }
         
 
