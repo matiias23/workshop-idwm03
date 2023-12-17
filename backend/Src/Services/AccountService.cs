@@ -89,6 +89,24 @@ public class AccountService : IAccountService
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
+
+        public async Task UpdatePassword(User user, string newPassword)
+        {
+            // Hash de la nueva contraseña utilizando BCrypt
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(newPassword, 12);
+
+            // Actualizar la contraseña del usuario en la base de datos
+            user.Password = hashedPassword;
+            await _usersRepository.UpdateUser(user);
+        }
+
+        public async Task<bool> VerifyPassword(User user, string currentPassword)
+        {
+            // Verificar la contraseña actual utilizando BCrypt
+            return BCrypt.Net.BCrypt.Verify(currentPassword, user.Password);
+        }
+
+
     }
 
 

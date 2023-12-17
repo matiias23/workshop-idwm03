@@ -136,6 +136,38 @@ namespace backend.Src.Controllers
             return Ok(userDto);
         }
 
+        [HttpPut("password/{rut}")]
+        public async Task<ActionResult> UpdatePasswordByRut(string rut, [FromBody] UpdatePasswordDto updatePasswordDto)
+        {
+            try
+            {
+                // Obtener el usuario por RUT
+                var existingUser = await _usersRepository.GetUserByRut(rut);
+
+                if (existingUser == null)
+                {
+                    return NotFound("Usuario no encontrado");
+                }
+
+                // Verificar la contraseña actual antes de proceder
+                if (!await _accountService.VerifyPassword(existingUser, updatePasswordDto.CurrentPassword))
+                {
+                    return BadRequest("La contraseña actual no es válida");
+                }
+
+                // Actualizar la contraseña en el servicio de cuentas
+                await _accountService.UpdatePassword(existingUser, updatePasswordDto.NewPassword);
+
+                return Ok("Contraseña actualizada exitosamente");
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier error inesperado
+                return StatusCode(500, $"Error interno del servidor: {ex.Message}");
+            }
+        }
+
+
 
     }
 
