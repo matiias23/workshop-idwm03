@@ -8,9 +8,6 @@ import { AuthContext } from "../context/AuthContext";
 
 const Repositories = ({ navigation }) => {
     const { logOut } = useContext(AuthContext);
-   
-    
-
     const [repositories, setRepositores] = useState<Repository[]>([]);
     const [isLoading, setIsLoading]= useState<boolean>(false);
     const url = "http://192.168.1.83:5023/Repositories";
@@ -56,9 +53,12 @@ const Repositories = ({ navigation }) => {
         
     };
 
+    const toCommits = ( repositories ) => {
+        navigation.navigate('Commits', repositories);
+    };
+
   return (
     <SafeAreaView style={styles.container}>
-        
         <Text variant={"displayMedium"}> Mis Repositorios</Text>
         <ScrollView>
         {repositories.map((r) => (
@@ -71,7 +71,7 @@ const Repositories = ({ navigation }) => {
             </Card.Content>
             <Card.Actions>
                 <Button
-                onPress={() => console.log("aasda")}
+                onPress={() => toCommits(r)}
                 mode={"contained"}
                 >
                     Ver más

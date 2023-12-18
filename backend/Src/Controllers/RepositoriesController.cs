@@ -60,13 +60,13 @@ namespace backend.Src.Controllers
             return mappedRepositories;
         }
 
-        /*[HttpGet("commits")]
-        public async Task<ActionResult<IReadOnlyList<GitHubCommit>?>> GetAllCommits()
+        [HttpGet("{repositoryName}")]
+        public async Task<ActionResult<IEnumerable<GitHubCommit>?>> GetAllCommits(string repositoryName)
         {
             var client = ClientProvider();
-            var response = await GetAllCommitsByRepository(client);
+            var response = await GetAllCommitsByRepository(client, repositoryName);
             return Ok(response);
-        }*/
+        }
 
         private async Task<int> GetCommitsAmountByRepository(GitHubClient client, string repoName)
         {
@@ -75,6 +75,25 @@ namespace backend.Src.Controllers
 
             return commits.Count;
               
+        }
+
+        private async Task<IReadOnlyList<CommitDto>?> GetAllCommitsByRepository(GitHubClient client, string repositoryName)
+        {
+
+            var commits = await client.Repository.Commit.GetAll("Dizkm8", repositoryName);
+
+            var mappedCommits = commits.Select((r) =>
+            {
+                var entity = new CommitDto
+                {
+                    Author = r.Author.Login,
+                    Message = r.Commit.Message,
+                    Date = r.Commit.Author.Date
+                };
+                return entity;
+            }).ToList();
+
+            return mappedCommits;
         }
 
         
