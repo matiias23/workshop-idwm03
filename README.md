@@ -51,7 +51,7 @@ dotnet run
 ```
 ## Pruebas con Postman
 Para probar las funcionalidades de la API, puede utilizar Postman.
-Importe el archivo "" ubicado dentro de la carpeta "backend". 
+Importe el archivo "Taller3.postman_collection.json" ubicado dentro de la carpeta "backend". 
 Esta colección contiene solicitudes preconfiguradas que puede utilizar para interactuar con la API.
 
 # Frontend

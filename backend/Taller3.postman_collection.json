@@ -1,0 +1,119 @@
+{
+	"info": {
+		"_postman_id": "d2f40ec3-2de2-4cfc-b504-ff7fb5b4e3db",
+		"name": "Taller3",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "27777484"
+	},
+	"item": [
+		{
+			"name": "Get Repositories",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://192.168.1.83:5023/Repositories"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Commits",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://192.168.1.83:5023/Repositories/TallerAyudantia"
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"prueba10@ucn.cl\",\r\n  \"password\": \"769028773\"\r\n}"
+				},
+				"url": "http://192.168.1.83:5023/Users/login"
+			},
+			"response": []
+		},
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"prueba10@ucn.cl\",\r\n  \"rut\": \"76.902.877-3\",\r\n  \"fullname\": \"Nombre\",\r\n  \"birthYear\": 2001\r\n}"
+				},
+				"url": "http://192.168.1.83:5023/Users/register"
+			},
+			"response": []
+		},
+		{
+			"name": "Put UserByRut",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"prueba11@ucn.cl\",\r\n  \"fullname\": \"Matias\",\r\n  \"birthYear\": 2005\r\n}"
+				},
+				"url": "http://192.168.1.83:5023/Users/76.902.877-3"
+			},
+			"response": []
+		},
+		{
+			"name": "Get UserByRut",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://192.168.1.83:5023/Users/76.902.877-3"
+			},
+			"response": []
+		},
+		{
+			"name": "UpdatePassword",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"currentPassword\": \"769028773\",\r\n  \"newPassword\": \"1234\"\r\n}"
+				},
+				"url": "http://192.168.1.83:5023/Users/password/76.902.877-3"
+			},
+			"response": []
+		}
+	]
+}
