@@ -25,13 +25,17 @@ public class AccountService : IAccountService
 
     public async Task<LoginResponseDto?> Login(LoginUserDto loginUserDto)
     {
+        // Obtener el usuario por correo electrónico
         var user = await _usersRepository.GetByEmail(loginUserDto.Email);
         if (user is null) return null;
 
+        // Verificar si el usuario existe
         var result = BCrypt.Net.BCrypt.Verify(loginUserDto.Password, user.Password);
+        // Si la contraseña no es válida, retornar null
         if (!result) return null;
-
+        // Crear un token JWT para el usuario autenticado
         var token = CreateToken(user);
+        // Devolver un objeto de respuesta con el token y la información del usuario
         return new LoginResponseDto()
         {
             Token = token,
@@ -43,10 +47,10 @@ public class AccountService : IAccountService
 
     public async Task<LoginResponseDto> RegisterClient(RegisterDto registerDto)
     {
-        // Utilizar el RUT como contraseña
+        // Utilizar el RUT como contraseña y generar el hash con BCrypt
         string passwordHash = BCrypt.Net.BCrypt.HashPassword(registerDto.Rut.Replace(".", "").Replace("-", ""), 12);
 
-        // Crear un objeto de usuario 
+        // Crear un objeto de usuario con la información del registro
         var user = new User
         {
             Rut = registerDto.Rut,

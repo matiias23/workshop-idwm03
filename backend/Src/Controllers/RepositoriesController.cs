@@ -15,7 +15,7 @@ namespace backend.Src.Controllers
     [Route("[controller]")] 
     public class RepositoriesController : ControllerBase
     {
-        
+        // Obtiene todos los repositorios de GitHub para el usuario especificado.  
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RepositoryDto>?>> GetAll()
         {
@@ -24,7 +24,7 @@ namespace backend.Src.Controllers
             var response = await GetAllRepositories(client);
             return Ok(response);
         }
-
+        // Proveedor de cliente GitHub con credenciales de acceso.
         private GitHubClient ClientProvider()
         {
             
@@ -34,7 +34,7 @@ namespace backend.Src.Controllers
             client.Credentials = tokenCred;
             return client;
         }
-
+        // Obtiene todos los repositorios del usuario de GitHub, ordenados por fecha de actualización.
         private async Task<IReadOnlyList<RepositoryDto>?> GetAllRepositories(GitHubClient client)
         {
             var repositories = await client.Repository.GetAllForUser("Dizkm8");
@@ -59,7 +59,7 @@ namespace backend.Src.Controllers
 
             return mappedRepositories;
         }
-
+        // Obtiene todos los commits de un repositorio específico en GitHub.
         [HttpGet("{repositoryName}")]
         public async Task<ActionResult<IEnumerable<GitHubCommit>?>> GetAllCommits(string repositoryName)
         {
@@ -67,7 +67,7 @@ namespace backend.Src.Controllers
             var response = await GetAllCommitsByRepository(client, repositoryName);
             return Ok(response);
         }
-
+        // Obtiene la cantidad de commits de un repositorio específico.
         private async Task<int> GetCommitsAmountByRepository(GitHubClient client, string repoName)
         {
             var commits = await client.Repository.Commit.GetAll("Dizkm8", repoName);
@@ -76,7 +76,7 @@ namespace backend.Src.Controllers
             return commits.Count;
               
         }
-
+        // Obtiene todos los commits de un repositorio específico y los mapea a un formato DTO.
         private async Task<IReadOnlyList<CommitDto>?> GetAllCommitsByRepository(GitHubClient client, string repositoryName)
         {
 

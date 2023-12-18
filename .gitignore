@@ -561,3 +561,6 @@ fabric.properties
 # Database credentials
 appsettings.Development.json
 /.idea/.idea.BanKarAPI/.idea/dataSources.xml
+
+# Ignorar archivos de entorno
+.env

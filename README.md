@@ -1,4 +1,4 @@
-# workshop-idwm02
+# workshop-idwm03
 # Backend
 ## Prerequisitos
 Antes de instalar y ejecutar la API del proyecto, asegúrate de tener el siguiente software instalado:
@@ -43,13 +43,15 @@ Para instalar y ejecutar correctamente siga los siguientes pasos:
 ```
 y reemplaza `SERVER_NAME`, `DATABASE_NAME`, `EXAMPLE_USER_ID`, `DATABASE_PASSWORD` con tu actual información.
 
-5. Ejecuta el proyecto: Escriba el siguiente comando en la terminal:
+5. Cree un archivo .env y configure los siguientes parámetros `GITHUB_ACCESS_TOKEN=su token de auth` y `LOCAL_IP=su ip local` 
+
+6. Ejecuta el proyecto: Escriba el siguiente comando en la terminal:
 ```bash
 dotnet run
 ```
 ## Pruebas con Postman
 Para probar las funcionalidades de la API, puede utilizar Postman.
-Importe el archivo "DumboApp.postman_collection.json" ubicado dentro de la carpeta "backend". 
+Importe el archivo "" ubicado dentro de la carpeta "backend". 
 Esta colección contiene solicitudes preconfiguradas que puede utilizar para interactuar con la API.
 
 # Frontend
@@ -61,7 +63,18 @@ npm -v
 
 Si NPM no está instalado, puede seguir la documentación oficial de NPM para obtener instrucciones de instalación. Consulte la [NPM Installation Guide](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) para obtener instrucciones detalladas sobre cómo instalar NPM.
 
-
+- Navege hasta el front
+```bash
+   cd mobile
+```
+- Installe las dependencias
+```bash
+   npm install
+```
+- Ejecute la aplicación
+```bash
+   npx expo start
+```
 
 
    ¡Eso es todo! Ahora podrá disfrutar de la aplicación en su máquina local.

@@ -29,13 +29,13 @@ namespace backend.Src.Controllers
             _usersRepository = usersRepository;
 
         }
-
+        // Verifica si un usuario con el ID proporcionado existe en el contexto de la base de datos.
         private bool UserExists(int id)
         {
             return _context.Users.Any(e => e.Id == id);
         }
         
-
+        // Realiza el inicio de sesión utilizando las credenciales proporcionadas y devuelve un token JWT en caso de éxito.
         [HttpPost("login")]
         public async Task<ActionResult<LoginResponseDto>> Login(LoginUserDto loginUserDto)
         {
@@ -45,7 +45,7 @@ namespace backend.Src.Controllers
             if (response is null) return BadRequest("Invalid Credentials");
             return Ok(response);
         }
-
+        // Genera un token JWT para un usuario proporcionado.
         private string GenerateJwtToken(Account user)
         {
             // Implementación de GenerateJwtToken
@@ -64,7 +64,7 @@ namespace backend.Src.Controllers
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
-
+        // Registra a un nuevo cliente y devuelve un token JWT en caso de éxito.
         [HttpPost("register")]
         public async Task<ActionResult<LoginResponseDto>> RegisterClient(RegisterDto registerDto)
         {
@@ -80,7 +80,7 @@ namespace backend.Src.Controllers
             var response = await _accountService.RegisterClient(registerDto);
             return Ok(response);
         }
-
+        // Actualiza el perfil de usuario identificado por el RUT proporcionado.
         [HttpPut("{rut}")]
         public async Task<ActionResult> UpdateUserProfile(string rut, [FromBody] UpdateUserDto updateUserDto)
         {
@@ -112,7 +112,7 @@ namespace backend.Src.Controllers
             return Ok(existingUser);
         }
 
-
+        // Obtiene un usuario por RUT y devuelve un DTO con información específica del usuario.
         [HttpGet("{rut}")]
         public async Task<ActionResult<UserDto>> GetUserByRut(string rut)
         {
@@ -135,7 +135,7 @@ namespace backend.Src.Controllers
 
             return Ok(userDto);
         }
-
+        // Actualiza la contraseña de un usuario por RUT, verificando la contraseña actual antes de proceder.
         [HttpPut("password/{rut}")]
         public async Task<ActionResult> UpdatePasswordByRut(string rut, [FromBody] UpdatePasswordDto updatePasswordDto)
         {
