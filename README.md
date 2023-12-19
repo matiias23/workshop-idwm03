@@ -14,7 +14,7 @@ Si .NET 7 no está instalado, consulta la documentación oficial para obtener in
 
 ## Instalación 
 Para instalar y ejecutar correctamente siga los siguientes pasos:
-1. Clona el reposotiorio **
+1. Clona el reposotiorio https://github.com/matiias23/workshop-idwm03.git
 
 2. Navega hasta el repositiorio del servidor
 ```bash
@@ -36,7 +36,7 @@ Para instalar y ejecutar correctamente siga los siguientes pasos:
        }
      },
      "ConnectionStrings": {
-       "DefaultConnection": "Server=SERVER_NAME; Database=DATABASE_NAME; Trusted_Connection=True; User ID=EXAMPLE_USER_ID; Password=DATABASE_PASSWORD;"
+       "DefaultConnection": "Server=SERVER_NAME; Database=DATABASE_NAME; Trusted_Connection=True; User ID=EXAMPLE_USER_ID; Password=DATABASE_PASSWORD; TrustServerCertificate=True;"
      },
      "TokenKey": "super clave secreta"
    }
